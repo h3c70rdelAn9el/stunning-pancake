@@ -2020,10 +2020,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    this.fetchData();
-  },
   data: function data() {
     return {
       currentTemp: {
@@ -2035,7 +2042,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       location: {
         place: "",
-        name: "Glendale, CA",
+        name: "Glendale",
         country: "",
         lat: 34.1425,
         lon: -118.2551
@@ -2043,29 +2050,57 @@ __webpack_require__.r(__webpack_exports__);
       daily: []
     };
   },
-  methods: {
-    fetchData: function fetchData() {
-      var _this = this;
+  watch: {
+    location: {
+      handler: function handler(newValue, oldValue) {
+        this.fetchdata();
+      },
+      deep: true
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
 
-      // fetch(`https://api.openweathermap.org/data/2.5/weather?q=Glendale,US&appid=ed48249aaa4749e27c2d0dea23b44f0f`)
+    this.fetchdata();
+    var placesAutocomplete = places({
+      appId: "plKN3WVHPS46",
+      apiKey: "8cc1498640c8e77d977e2d1684253e51",
+      container: document.querySelector("#address")
+    });
+    var $address = document.querySelector("#address-value");
+    placesAutocomplete.on("change", function (e) {
+      $address.textContent = e.suggestion.value;
+      console.log(e);
+      _this.location.name = "".concat(e.suggestion.name, ", ").concat(e.suggestion.country);
+      _this.location.lat = e.suggestion.latlng.lat;
+      _this.location.lon = e.suggestion.latlng.lng;
+    });
+    placesAutocomplete.on("clear", function () {
+      $address.textContent = "none";
+    });
+  },
+  methods: {
+    fetchdata: function fetchdata() {
+      var _this2 = this;
+
       fetch("/api/?lat=".concat(this.location.lat, "&lon=").concat(this.location.lon)).then(function (response) {
         return response.json();
       }).then(function (data) {
         // console.log(data)
-        _this.currentTemp.actual = Math.round(data.main.temp);
-        _this.currentTemp.feels = Math.round(data.main.feels_like);
-        _this.currentTemp.description = data.weather[0].description;
-        _this.currentTemp.icon = "http://openweathermap.org/img/wn/".concat(data.weather[0].icon, "@2x.png");
-        _this.currentTemp.wind = data.wind.speed;
-        _this.location.place = data.name;
-        _this.location.country = data.sys.country;
+        _this2.currentTemp.actual = Math.round(data.main.temp);
+        _this2.currentTemp.feels = Math.round(data.main.feels_like);
+        _this2.currentTemp.description = data.weather[0].description;
+        _this2.currentTemp.icon = "http://openweathermap.org/img/wn/".concat(data.weather[0].icon, "@2x.png");
+        _this2.currentTemp.wind = data.wind.speed;
+        _this2.location.place = data.name;
+        _this2.location.name = data.name;
+        _this2.location.country = data.sys.country;
         console.log(data);
       });
       fetch("/api/forecast?lat=".concat(this.location.lat, "&lon=").concat(this.location.lon)).then(function (response) {
         return response.json();
       }).then(function (data) {
-        _this.daily = data.daily;
-        console.log(_this.daily);
+        _this2.daily = data.daily; // console.log(this.daily);
       });
     },
     toWeekDay: function toWeekDay(timestamp) {
@@ -37721,14 +37756,17 @@ var render = function() {
           "mx-auto rounded-lg weather-container font-sans w-128 max-w-lg overflow-hidden bg-gray-900 shadow-xl mt-4"
       },
       [
-        _c("h1", { staticClass: "text-3xl ml-6 mt-3" }, [
-          _vm._v(
-            "\n            " + _vm._s(_vm.location.place) + "\n            "
-          ),
-          _c("span", { staticClass: "text-lg ml-1" }, [
-            _vm._v(_vm._s(_vm.location.country))
-          ])
-        ]),
+        _c(
+          "h1",
+          { staticClass: "text-3xl ml-6 mt-3", attrs: { id: "address-value" } },
+          [
+            _vm._v("\n      " + _vm._s(_vm.location.name) + "\n      "),
+            _vm._v(" "),
+            _c("span", { staticClass: "text-lg ml-1" }, [
+              _vm._v(_vm._s(_vm.location.country))
+            ])
+          ]
+        ),
         _vm._v(" "),
         _c(
           "div",
@@ -37741,17 +37779,15 @@ var render = function() {
               _c("div", [
                 _c("div", { staticClass: "font-semibold text-6xl" }, [
                   _vm._v(
-                    "\n                        " +
+                    "\n            " +
                       _vm._s(_vm.currentTemp.actual) +
-                      "\n                        "
+                      "\n            "
                   ),
                   _c("span", { staticClass: "text-4xl" }, [_vm._v("°F")])
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "text-xs" }, [
-                  _vm._v(
-                    "\n                        feels like\n                        "
-                  ),
+                  _vm._v("\n            feels like\n            "),
                   _c("span", { staticClass: "text-lg ml-2" }, [
                     _vm._v(_vm._s(_vm.currentTemp.feels) + "°F")
                   ])
@@ -37761,9 +37797,9 @@ var render = function() {
               _c("div", { staticClass: "mx-5 mt-10 text-sm" }, [
                 _c("div", { staticClass: "font-semibold" }, [
                   _vm._v(
-                    "\n                        " +
+                    "\n            " +
                       _vm._s(_vm.currentTemp.description) +
-                      "\n                    "
+                      "\n          "
                   )
                 ])
               ])
@@ -37792,9 +37828,9 @@ var render = function() {
               [
                 _c("div", { staticClass: "w-1/6 text-lg text-gray-200" }, [
                   _vm._v(
-                    "\n                    " +
+                    "\n          " +
                       _vm._s(_vm.toWeekDay(day.dt)) +
-                      "\n                "
+                      "\n        "
                   )
                 ]),
                 _vm._v(" "),
@@ -37810,9 +37846,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", [
                       _vm._v(
-                        "\n                        " +
+                        "\n            " +
                           _vm._s(day.weather[0].description) +
-                          "\n                    "
+                          "\n          "
                       )
                     ])
                   ]
@@ -37821,20 +37857,20 @@ var render = function() {
                 _c("div", { staticClass: "w-1/6 text-right" }, [
                   _c("div", [
                     _vm._v(
-                      "\n                        high " +
+                      "\n            high " +
                         _vm._s(Math.round(day.temp.max)) +
-                        "°"
+                        "°\n            "
                     ),
-                    _c("span", { staticClass: "text-xs" }, [_vm._v("F")])
+                    _c("span", { staticClass: "text-xs" }, [_vm._v("°F")])
                   ]),
                   _vm._v(" "),
                   _c("div", [
                     _vm._v(
-                      "\n                        low " +
+                      "\n            low " +
                         _vm._s(Math.round(day.temp.min)) +
-                        "°"
+                        "°\n            "
                     ),
-                    _c("span", { staticClass: "text-xs" }, [_vm._v("F")])
+                    _c("span", { staticClass: "text-xs" }, [_vm._v("°F")])
                   ])
                 ])
               ]
@@ -37854,8 +37890,10 @@ var staticRenderFns = [
     return _c("div", { staticClass: "places-input text-gray-800" }, [
       _c("input", {
         staticClass: "w-full bg-blue-800 rounded",
-        attrs: { type: "text" }
-      })
+        attrs: { type: "search", id: "address", placeholder: "City, STATE" }
+      }),
+      _vm._v(" "),
+      _c("p")
     ])
   }
 ]
