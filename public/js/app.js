@@ -2014,22 +2014,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2047,7 +2031,8 @@ __webpack_require__.r(__webpack_exports__);
         lat: 34.1425,
         lon: -118.2551
       },
-      daily: []
+      daily: [],
+      isHidden: true
     };
   },
   watch: {
@@ -2086,7 +2071,6 @@ __webpack_require__.r(__webpack_exports__);
       fetch("/api/?lat=".concat(this.location.lat, "&lon=").concat(this.location.lon)).then(function (response) {
         return response.json();
       }).then(function (data) {
-        // console.log(data)
         _this2.currentTemp.actual = Math.round(data.main.temp);
         _this2.currentTemp.feels = Math.round(data.main.feels_like);
         _this2.currentTemp.description = data.weather[0].description;
@@ -2100,7 +2084,7 @@ __webpack_require__.r(__webpack_exports__);
       fetch("/api/forecast?lat=".concat(this.location.lat, "&lon=").concat(this.location.lon)).then(function (response) {
         return response.json();
       }).then(function (data) {
-        _this2.daily = data.daily; // console.log(this.daily);
+        _this2.daily = data.daily;
       });
     },
     toWeekDay: function toWeekDay(timestamp) {
@@ -37811,73 +37795,100 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass:
-              "future-weather text-sm bg-blue-700 px-6 py-8 overflow-hidden"
-          },
-          _vm._l(_vm.daily, function(day, index) {
-            return _c(
-              "div",
-              {
-                key: day.dt,
-                staticClass: "flex items-center",
-                class: { "mt-8": index > 0 }
-              },
-              [
-                _c("div", { staticClass: "w-1/6 text-lg text-gray-200" }, [
-                  _vm._v(
-                    "\n          " +
-                      _vm._s(_vm.toWeekDay(day.dt)) +
-                      "\n        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "w-4/6 px-4 flex flex-row items-center" },
-                  [
+        _c("div", [
+          _c(
+            "button",
+            {
+              staticClass: "border border-blue-200 rounded ml-4 mb-2",
+              on: {
+                click: function($event) {
+                  _vm.isHidden = !_vm.isHidden
+                }
+              }
+            },
+            [
+              _c("p", { staticClass: "p-1 text-blue-200" }, [
+                _vm._v("Show Extended")
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.isHidden,
+                  expression: "!isHidden"
+                }
+              ],
+              staticClass:
+                "future-weather text-sm bg-blue-700 px-6 py-8 overflow-hidden"
+            },
+            _vm._l(_vm.daily, function(day, index) {
+              return _c(
+                "div",
+                {
+                  key: day.dt,
+                  staticClass: "flex items-center",
+                  class: { "mt-8": index > 0 }
+                },
+                [
+                  _c("div", { staticClass: "w-1/6 text-lg text-gray-200" }, [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.toWeekDay(day.dt)) +
+                        "\n          "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "w-4/6 px-4 flex flex-row items-center" },
+                    [
+                      _c("div", [
+                        _c("img", {
+                          attrs: { src: _vm.forecastIcon(day.weather[0].icon) }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(day.weather[0].description) +
+                            "\n            "
+                        )
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "w-1/6 text-right" }, [
                     _c("div", [
-                      _c("img", {
-                        attrs: { src: _vm.forecastIcon(day.weather[0].icon) }
-                      })
+                      _vm._v(
+                        "\n              high " +
+                          _vm._s(Math.round(day.temp.max)) +
+                          "°\n              "
+                      ),
+                      _c("span", { staticClass: "text-xs" }, [_vm._v("°F")])
                     ]),
                     _vm._v(" "),
                     _c("div", [
                       _vm._v(
-                        "\n            " +
-                          _vm._s(day.weather[0].description) +
-                          "\n          "
-                      )
+                        "\n              low " +
+                          _vm._s(Math.round(day.temp.min)) +
+                          "°\n              "
+                      ),
+                      _c("span", { staticClass: "text-xs" }, [_vm._v("°F")])
                     ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "w-1/6 text-right" }, [
-                  _c("div", [
-                    _vm._v(
-                      "\n            high " +
-                        _vm._s(Math.round(day.temp.max)) +
-                        "°\n            "
-                    ),
-                    _c("span", { staticClass: "text-xs" }, [_vm._v("°F")])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _vm._v(
-                      "\n            low " +
-                        _vm._s(Math.round(day.temp.min)) +
-                        "°\n            "
-                    ),
-                    _c("span", { staticClass: "text-xs" }, [_vm._v("°F")])
                   ])
-                ])
-              ]
-            )
-          }),
-          0
-        )
+                ]
+              )
+            }),
+            0
+          )
+        ])
       ]
     )
   ])

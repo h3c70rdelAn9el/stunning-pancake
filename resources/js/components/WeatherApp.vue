@@ -1,65 +1,48 @@
 <template>
-  <div class="text-gray-100 mb-9">
-    <!-- PLACES -->
-    <div class="places-input text-gray-800">
-      <input
-        type="search"
-        id="address"
-        placeholder="City, STATE"
-        class="w-full bg-blue-800 rounded"
-      />
-      <p>
-        <!-- <strong id="address-value"></strong> -->
-      </p>
-    </div>
+<div class="text-gray-100 mb-9">
+  <!-- PLACES -->
+  <div class="places-input text-gray-800">
+    <input type="search" id="address" placeholder="City, STATE" class="w-full bg-blue-800 rounded" />
+    <p>
+    </p>
+  </div>
 
-    <!-- DAILY WEATHER -->
-    <div
-      class="mx-auto rounded-lg weather-container font-sans w-128 max-w-lg overflow-hidden bg-gray-900 shadow-xl mt-4"
-    >
-      <h1 class="text-3xl ml-6 mt-3" id="address-value">
-        {{ location.name }}
-        <!-- {{ location.place }} -->
-        <span class="text-lg ml-1">{{ location.country }}</span>
-      </h1>
-      <div class="current-weather flex items-center justify-between px-6 py-8">
-        <div class="flex item-center">
-          <div>
-            <div class="font-semibold text-6xl">
-              {{ currentTemp.actual }}
-              <span class="text-4xl">°F</span>
-            </div>
-            <div class="text-xs">
-              feels like
-              <span class="text-lg ml-2">{{ currentTemp.feels }}°F</span>
-            </div>
+  <!-- DAILY WEATHER -->
+  <div class="mx-auto rounded-lg weather-container font-sans w-128 max-w-lg overflow-hidden bg-gray-900 shadow-xl mt-4">
+    <h1 class="text-3xl ml-6 mt-3" id="address-value">
+      {{ location.name }}
+      <!-- {{ location.place }} -->
+      <span class="text-lg ml-1">{{ location.country }}</span>
+    </h1>
+    <div class="current-weather flex items-center justify-between px-6 py-8">
+      <div class="flex item-center">
+        <div>
+          <div class="font-semibold text-6xl">
+            {{ currentTemp.actual }}
+            <span class="text-4xl">°F</span>
           </div>
-          <div class="mx-5 mt-10 text-sm">
-            <div class="font-semibold">
-              {{ currentTemp.description }}
-            </div>
+          <div class="text-xs">
+            feels like
+            <span class="text-lg ml-2">{{ currentTemp.feels }}°F</span>
           </div>
         </div>
-        <div class="icon">
-          <img :src="currentTemp.icon" />
+        <div class="mx-5 mt-10 text-sm">
+          <div class="font-semibold">
+            {{ currentTemp.description }}
+          </div>
         </div>
       </div>
-
-      <!-- FORECAST -->
-      <!-- TODO:   ADD AN OPEN/CLOSE -->
-      <!-- <div>
-        <div>
-          <h1>close</h1>
-        </div>
-      </div> -->
-
-      <div class="future-weather text-sm bg-blue-700 px-6 py-8 overflow-hidden">
-        <div
-          class="flex items-center"
-          v-for="(day, index) in daily"
-          :key="day.dt"
-          :class="{ 'mt-8': index > 0 }"
-        >
+      <div class="icon">
+        <img :src="currentTemp.icon" />
+      </div>
+    </div>
+    <!-- EXTENDED FORECAST  -->
+    <div>
+      <button class="border border-blue-200 rounded ml-4 mb-2" @click="isHidden = !isHidden">
+        <p class="p-1 text-blue-200">Show Extended</p>
+      </button>
+      <div v-show="!isHidden" class="future-weather text-sm bg-blue-700 px-6 py-8 overflow-hidden">
+        <div class="flex items-center" v-for="(day, index) in daily" :key="day.dt" :class="{ 'mt-8': index > 0 }">
           <div class="w-1/6 text-lg text-gray-200">
             {{ toWeekDay(day.dt) }}
           </div>
@@ -85,6 +68,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -105,7 +89,8 @@ export default {
         lat: 34.1425,
         lon: -118.2551
       },
-      daily: []
+      daily: [],
+      isHidden: true
     };
   },
 
@@ -134,7 +119,7 @@ export default {
       this.location.lon = e.suggestion.latlng.lng;
     });
 
-    placesAutocomplete.on("clear", function() {
+    placesAutocomplete.on("clear", function () {
       $address.textContent = "none";
     });
   },
@@ -144,7 +129,6 @@ export default {
       fetch(`/api/?lat=${this.location.lat}&lon=${this.location.lon}`)
         .then(response => response.json())
         .then(data => {
-          // console.log(data)
           this.currentTemp.actual = Math.round(data.main.temp);
           this.currentTemp.feels = Math.round(data.main.feels_like);
           this.currentTemp.description = data.weather[0].description;
@@ -160,7 +144,6 @@ export default {
         .then(response => response.json())
         .then(data => {
           this.daily = data.daily;
-          // console.log(this.daily);
         });
     },
     toWeekDay(timestamp) {
