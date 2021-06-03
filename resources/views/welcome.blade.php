@@ -11,7 +11,7 @@
 
   
 
-  <title>Document</title>
+  <title>Weather</title>
   <script src="/js/app.js" defer></script>
 </head>
 <body class="bg-blue-600">

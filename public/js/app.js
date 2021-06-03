@@ -37737,16 +37737,16 @@ var render = function() {
       "div",
       {
         staticClass:
-          "mx-auto rounded-lg weather-container font-sans w-128 max-w-lg overflow-hidden bg-gray-900 shadow-xl mt-4"
+          "max-w-lg mx-auto mt-4 overflow-hidden font-sans bg-gray-900 rounded-lg shadow-xl weather-container w-128"
       },
       [
         _c(
           "h1",
-          { staticClass: "text-3xl ml-6 mt-3", attrs: { id: "address-value" } },
+          { staticClass: "mt-3 ml-6 text-3xl", attrs: { id: "address-value" } },
           [
             _vm._v("\n      " + _vm._s(_vm.location.name) + "\n      "),
             _vm._v(" "),
-            _c("span", { staticClass: "text-lg ml-1" }, [
+            _c("span", { staticClass: "ml-1 text-lg" }, [
               _vm._v(_vm._s(_vm.location.country))
             ])
           ]
@@ -37756,12 +37756,12 @@ var render = function() {
           "div",
           {
             staticClass:
-              "current-weather flex items-center justify-between px-6 py-8"
+              "flex items-center justify-between px-6 py-8 current-weather"
           },
           [
             _c("div", { staticClass: "flex item-center" }, [
               _c("div", [
-                _c("div", { staticClass: "font-semibold text-6xl" }, [
+                _c("div", { staticClass: "text-6xl font-semibold" }, [
                   _vm._v(
                     "\n            " +
                       _vm._s(_vm.currentTemp.actual) +
@@ -37772,7 +37772,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "text-xs" }, [
                   _vm._v("\n            feels like\n            "),
-                  _c("span", { staticClass: "text-lg ml-2" }, [
+                  _c("span", { staticClass: "ml-2 text-lg" }, [
                     _vm._v(_vm._s(_vm.currentTemp.feels) + "°F")
                   ])
                 ])
@@ -37799,7 +37799,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "border border-blue-200 rounded ml-4 mb-2",
+              staticClass: "mb-2 ml-4 border border-blue-200 rounded",
               on: {
                 click: function($event) {
                   _vm.isHidden = !_vm.isHidden
@@ -37807,7 +37807,7 @@ var render = function() {
               }
             },
             [
-              _c("p", { staticClass: "p-1 text-blue-200" }, [
+              _c("p", { staticClass: "p-1 text-blue-200 hover:bg-blue-500" }, [
                 _vm._v("Show Extended")
               ])
             ]
@@ -37825,7 +37825,7 @@ var render = function() {
                 }
               ],
               staticClass:
-                "future-weather text-sm bg-blue-700 px-6 py-8 overflow-hidden"
+                "px-6 py-8 overflow-hidden text-sm bg-blue-700 future-weather"
             },
             _vm._l(_vm.daily, function(day, index) {
               return _c(
@@ -37846,7 +37846,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "div",
-                    { staticClass: "w-4/6 px-4 flex flex-row items-center" },
+                    { staticClass: "flex flex-row items-center w-4/6 px-4" },
                     [
                       _c("div", [
                         _c("img", {
@@ -37898,7 +37898,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "places-input text-gray-800" }, [
+    return _c("div", { staticClass: "text-gray-800 places-input" }, [
       _c("input", {
         staticClass: "w-full bg-blue-800 rounded",
         attrs: { type: "search", id: "address", placeholder: "City, STATE" }
@@ -50316,8 +50316,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/H3C70R/Opuses/laravel/lar-vue-weather/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/H3C70R/Opuses/laravel/lar-vue-weather/resources/css/app.css */"./resources/css/app.css");
+__webpack_require__(/*! /Users/H3C70R/Opuses/personal/lar-vue-weather/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/H3C70R/Opuses/personal/lar-vue-weather/resources/css/app.css */"./resources/css/app.css");
 
 
 /***/ })

@@ -16,4 +16,4 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         require('tailwindcss'),
     ])
-    .browserSync({proxy: 'lar-vue-weather.test'});
+    .browserSync( 'lar-vue-weather.test');

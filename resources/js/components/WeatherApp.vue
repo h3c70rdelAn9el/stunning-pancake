@@ -1,29 +1,29 @@
 <template>
 <div class="text-gray-100 mb-9">
   <!-- PLACES -->
-  <div class="places-input text-gray-800">
+  <div class="text-gray-800 places-input">
     <input type="search" id="address" placeholder="City, STATE" class="w-full bg-blue-800 rounded" />
     <p>
     </p>
   </div>
 
   <!-- DAILY WEATHER -->
-  <div class="mx-auto rounded-lg weather-container font-sans w-128 max-w-lg overflow-hidden bg-gray-900 shadow-xl mt-4">
-    <h1 class="text-3xl ml-6 mt-3" id="address-value">
+  <div class="max-w-lg mx-auto mt-4 overflow-hidden font-sans bg-gray-900 rounded-lg shadow-xl weather-container w-128">
+    <h1 class="mt-3 ml-6 text-3xl" id="address-value">
       {{ location.name }}
       <!-- {{ location.place }} -->
-      <span class="text-lg ml-1">{{ location.country }}</span>
+      <span class="ml-1 text-lg">{{ location.country }}</span>
     </h1>
-    <div class="current-weather flex items-center justify-between px-6 py-8">
+    <div class="flex items-center justify-between px-6 py-8 current-weather">
       <div class="flex item-center">
         <div>
-          <div class="font-semibold text-6xl">
+          <div class="text-6xl font-semibold">
             {{ currentTemp.actual }}
             <span class="text-4xl">°F</span>
           </div>
           <div class="text-xs">
             feels like
-            <span class="text-lg ml-2">{{ currentTemp.feels }}°F</span>
+            <span class="ml-2 text-lg">{{ currentTemp.feels }}°F</span>
           </div>
         </div>
         <div class="mx-5 mt-10 text-sm">
@@ -38,15 +38,15 @@
     </div>
     <!-- EXTENDED FORECAST  -->
     <div>
-      <button class="border border-blue-200 rounded ml-4 mb-2" @click="isHidden = !isHidden">
-        <p class="p-1 text-blue-200">Show Extended</p>
+      <button class="mb-2 ml-4 border border-blue-200 rounded" @click="isHidden = !isHidden">
+        <p class="p-1 text-blue-200 hover:bg-blue-500">Show Extended</p>
       </button>
-      <div v-show="!isHidden" class="future-weather text-sm bg-blue-700 px-6 py-8 overflow-hidden">
+      <div v-show="!isHidden" class="px-6 py-8 overflow-hidden text-sm bg-blue-700 future-weather">
         <div class="flex items-center" v-for="(day, index) in daily" :key="day.dt" :class="{ 'mt-8': index > 0 }">
           <div class="w-1/6 text-lg text-gray-200">
             {{ toWeekDay(day.dt) }}
           </div>
-          <div class="w-4/6 px-4 flex flex-row items-center">
+          <div class="flex flex-row items-center w-4/6 px-4">
             <div>
               <img :src="forecastIcon(day.weather[0].icon)" />
             </div>
@@ -90,7 +90,7 @@ export default {
         lon: -118.2551
       },
       daily: [],
-      isHidden: true
+      isHidden: true,
     };
   },
 
