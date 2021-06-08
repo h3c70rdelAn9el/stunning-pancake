@@ -8,9 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
 
-
-  
-
   <title>Weather</title>
   <script src="/js/app.js" defer></script>
 </head>
